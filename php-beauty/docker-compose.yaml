@@ -1,10 +1,13 @@
+version: '3.5'
+
 services:
     redis:
         image: redis:alpine
-        command: [ redis-server, --maxmemory 128mb, --maxmemory-policy volatile-lru, --save "" ]
 
     db:
         image: mariadb:10.7
+        ports:
+            - "3306:3306"
         working_dir: /application
         command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --innodb-file-per-table=1]
         volumes:
@@ -58,6 +61,27 @@ services:
             - .:/var/www/html
             - ./.docker/supervisord.conf:/etc/supervisor/conf.d/pimcore.conf:ro
 
+
+    elasticsearch:
+        user: '1000:1000'
+        image: elasticsearch:8.2.3
+        container_name: elasticsearch
+        environment:
+            - xpack.security.enabled=false
+            - discovery.type=single-node
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - elasticsearch-data:/usr/share/elasticsearch/data
+        ports:
+            - 9200:9200
+            - 9300:9300
+        depends_on:
+            - php-fpm
+
 volumes:
     pimcore-database:
     pimcore-tmp-storage:
+    elasticsearch-data:

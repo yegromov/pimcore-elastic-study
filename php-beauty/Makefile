@@ -12,7 +12,7 @@ help:
 init-project: up composer-install create-db pimcore-install pimcore-rebuild-classes
 
 create-db: ## Create database
-	docker-compose exec db mysql -pphp-beauty-pwd -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE}"
+	docker-compose exec db mysql -pphp-beauty-pwd -e "CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`"
 
 composer-install: ## Composer install
 	docker-compose exec php-fpm php -d memory_limit=-1 /usr/bin/composer install

@@ -7,7 +7,8 @@ ADMIN_USERNAME=scn-admin
 ADMIN_PASSWORD=scn-pwd
 
 cd php-beauty/
-#docker-compose up -d
+docker-compose up -d
+docker-compose exec php-fpm composer install
 docker-compose exec php-fpm php ./vendor/bin/pimcore-install \
     --admin-username=$ADMIN_USERNAME \
     --admin-password=$ADMIN_PASSWORD \
@@ -21,6 +22,7 @@ docker-compose exec php-fpm php ./vendor/bin/pimcore-install \
 # DataHub install and enable
 docker-compose exec php-fpm bin/console pimcore:bundle:enable PimcoreDataHubBundle
 docker-compose exec php-fpm bin/console pimcore:bundle:install PimcoreDataHubBundle
+# ElasticSearch components install
 docker-compose exec php-fpm bin/console pimcore:bundle:enable PimcoreEcommerceFrameworkBundle
 docker-compose exec php-fpm bin/console pimcore:bundle:install PimcoreEcommerceFrameworkBundle
 

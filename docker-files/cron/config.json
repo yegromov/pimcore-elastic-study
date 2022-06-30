@@ -3,7 +3,7 @@
     "comment":"this command fills the message queue with the necessary tasks, which are then processed by messenger:consume",
     "schedule":"@every 5m",
     "project":"php-beauty",
-    "container":"php-fpm_1",
+    "container":"php-beauty_php-fpm",
     "command":"./bin/console pimcore:maintenance --async",
     "onstart":true
  }
@@ -12,7 +12,7 @@
     "comment":"it's recommended to run the following command using a process control system like Supervisor",
     "schedule":"@every 5m",
     "project":"php-beauty",
-    "container":"php-fpm_1",
+    "container":"php-beauty_php-fpm",
     "command":"./bin/console messenger:consume pimcore_core pimcore_maintenance --time-limit=300",
     "onstart":true
 }]

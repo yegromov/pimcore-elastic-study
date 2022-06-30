@@ -32,6 +32,7 @@ services:
     php-fpm:
         user: '1000:1000'
         image: pimcore/pimcore:PHP8.1-fpm
+        container_name: php-beauty_php-fpm
         environment:
             COMPOSER_HOME: /var/www/html
         depends_on:
@@ -80,6 +81,20 @@ services:
             - 9300:9300
         depends_on:
             - php-fpm
+    cron:
+          build: ../docker-files/cron/
+          restart: always
+          volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock:ro"
+          depends_on:
+             - php-fpm
+
+    varnish:
+          build: ../docker-files/varnish/
+          ports:
+            - "80:80"
+          depends_on:
+            - nginx
 
 volumes:
     pimcore-database:

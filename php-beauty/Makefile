@@ -1,6 +1,7 @@
-cnf ?= .env
-include .env
-export $(shell sed 's/=.*//' $(cnf))
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
+endif
 
 .PHONY: help
 
@@ -20,13 +21,7 @@ composer-install: ## Composer install
 pimcore-install: ## Pimcore install
 	docker-compose exec php-fpm php ./vendor/bin/pimcore-install \
         										  --ignore-existing-config \
-        										  --admin-username=admin \
-        										  --admin-password=admin \
         										  --mysql-host-socket=db \
-        										  --mysql-username=${MYSQL_USER} \
-        										  --mysql-password=${MYSQL_PASSWORD} \
-        										  --mysql-database=${MYSQL_DATABASE} \
-        										  --mysql-port=${MYSQL_PORT} \
         										  --no-interaction
 
 build: ## Build docker containers

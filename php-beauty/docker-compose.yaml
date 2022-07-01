@@ -12,11 +12,8 @@ services:
         command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --innodb-file-per-table=1]
         volumes:
             - pimcore-database:/var/lib/mysql
-        environment:
-            - MYSQL_ROOT_PASSWORD=php-beauty-pwd
-            - MYSQL_DATABASE=php-beauty
-            - MYSQL_USER=php-beauty
-            - MYSQL_PASSWORD=php-beauty-pwd
+        env_file:
+            - .env
 
     nginx:
         image: nginx:stable-alpine
@@ -35,6 +32,8 @@ services:
         container_name: php-beauty_php-fpm
         environment:
             COMPOSER_HOME: /var/www/html
+        env_file:
+            - .env
         depends_on:
             - db
         volumes:

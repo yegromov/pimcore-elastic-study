@@ -9,7 +9,7 @@ help:
 
 .DEFAULT_GOAL := help
 
-init-project: up composer-install create-db pimcore-install pimcore-rebuild-classes
+init-project: up composer-install create-db pimcore-install pimcore-rebuild-classes ## Initialize empty project
 
 create-db: ## Create database
 	docker-compose exec db mysql -pphp-beauty-pwd -e "CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`"

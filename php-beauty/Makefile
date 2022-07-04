@@ -23,6 +23,10 @@ pimcore-install: ## Pimcore install
         										  --ignore-existing-config \
         										  --mysql-host-socket=db \
         										  --no-interaction
+	docker-compose exec php-fpm bin/console pimcore:bundle:enable PimcoreDataHubBundle
+	docker-compose exec php-fpm bin/console pimcore:bundle:install PimcoreDataHubBundle
+	docker-compose exec php-fpm bin/console pimcore:bundle:enable PimcoreEcommerceFrameworkBundle
+	docker-compose exec php-fpm bin/console pimcore:bundle:install PimcoreEcommerceFrameworkBundle
 
 build: ## Build docker containers
 	docker-compose build

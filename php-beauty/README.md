@@ -8,7 +8,9 @@ git clone -b Infrastructure ssh://git@stash.scnsoft.com:2222/pd/pimcorex-dev-box
 cd pimcorex-dev-box/php-beauty
 make init-project
 ```
- 
+
+If needed, change UID and GID in docker-compose.yaml in user section (default 1000:1000).
+
 - Open http://localhost:8080/admin in your browser
 - Done! 😎
 

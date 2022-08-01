@@ -5,22 +5,19 @@
  * Variants: no
  *
  * Fields Summary:
- * - Name [input]
- * - Description [textarea]
- * - Banner [image]
- * - IsActive [booleanSelect]
+ * - name [input]
  */
 
 return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
    'dao' => NULL,
-   'id' => '3',
-   'name' => 'Advertising',
+   'id' => '47',
+   'name' => 'ProductCategory',
    'description' => '',
-   'creationDate' => NULL,
-   'modificationDate' => 1656320335,
-   'userOwner' => NULL,
-   'userModification' => 0,
-   'parentClass' => '',
+   'creationDate' => 0,
+   'modificationDate' => 1658833041,
+   'userOwner' => 2,
+   'userModification' => 2,
+   'parentClass' => '\\Pimcore\\Bundle\\EcommerceFrameworkBundle\\Model\\AbstractCategory',
    'implementsInterfaces' => '',
    'listingParentClass' => '',
    'useTraits' => '',
@@ -67,7 +64,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
         array (
           0 => 
           Pimcore\Model\DataObject\ClassDefinition\Data\Input::__set_state(array(
-             'name' => 'Name',
+             'name' => 'name',
              'title' => 'Name',
              'tooltip' => '',
              'mandatory' => false,
@@ -95,99 +92,6 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
              'unique' => false,
              'showCharCount' => false,
              'defaultValueGenerator' => '',
-          )),
-          1 => 
-          Pimcore\Model\DataObject\ClassDefinition\Data\Textarea::__set_state(array(
-             'name' => 'Description',
-             'title' => 'Description',
-             'tooltip' => '',
-             'mandatory' => false,
-             'noteditable' => false,
-             'index' => false,
-             'locked' => false,
-             'style' => '',
-             'permissions' => NULL,
-             'datatype' => 'data',
-             'fieldtype' => 'textarea',
-             'relationType' => false,
-             'invisible' => false,
-             'visibleGridView' => false,
-             'visibleSearch' => false,
-             'blockedVarsForExport' => 
-            array (
-            ),
-             'width' => '',
-             'height' => '',
-             'maxLength' => NULL,
-             'showCharCount' => false,
-             'excludeFromSearchIndex' => false,
-          )),
-          2 => 
-          Pimcore\Model\DataObject\ClassDefinition\Data\Image::__set_state(array(
-             'name' => 'Banner',
-             'title' => 'Banner',
-             'tooltip' => '',
-             'mandatory' => false,
-             'noteditable' => false,
-             'index' => false,
-             'locked' => false,
-             'style' => '',
-             'permissions' => NULL,
-             'datatype' => 'data',
-             'fieldtype' => 'image',
-             'relationType' => false,
-             'invisible' => false,
-             'visibleGridView' => false,
-             'visibleSearch' => false,
-             'blockedVarsForExport' => 
-            array (
-            ),
-             'width' => '',
-             'height' => '',
-             'uploadPath' => '',
-          )),
-          3 => 
-          Pimcore\Model\DataObject\ClassDefinition\Data\BooleanSelect::__set_state(array(
-             'name' => 'IsActive',
-             'title' => 'Is Active',
-             'tooltip' => '',
-             'mandatory' => false,
-             'noteditable' => false,
-             'index' => false,
-             'locked' => false,
-             'style' => '',
-             'permissions' => NULL,
-             'datatype' => 'data',
-             'fieldtype' => 'booleanSelect',
-             'relationType' => false,
-             'invisible' => false,
-             'visibleGridView' => false,
-             'visibleSearch' => false,
-             'blockedVarsForExport' => 
-            array (
-            ),
-             'yesLabel' => 'yes',
-             'noLabel' => 'no',
-             'emptyLabel' => 'empty',
-             'options' => 
-            array (
-              0 => 
-              array (
-                'key' => 'empty',
-                'value' => 0,
-              ),
-              1 => 
-              array (
-                'key' => 'yes',
-                'value' => 1,
-              ),
-              2 => 
-              array (
-                'key' => 'no',
-                'value' => -1,
-              ),
-            ),
-             'width' => '',
           )),
         ),
          'locked' => false,

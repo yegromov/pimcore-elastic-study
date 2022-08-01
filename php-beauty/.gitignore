@@ -41,6 +41,7 @@
 
 # composer
 /vendor/
+composer.lock
 
 # PhpStorm / IDEA
 .idea
@@ -51,4 +52,4 @@ nbproject
 .temp
 
 #cache
-cache
+/cache

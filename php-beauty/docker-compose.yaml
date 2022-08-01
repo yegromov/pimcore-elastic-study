@@ -64,7 +64,7 @@ services:
 
     elasticsearch:
         user: '1000:1000'
-        image: elasticsearch:8.2.3
+        image: elasticsearch:7.17.5
         container_name: elasticsearch
         environment:
             - xpack.security.enabled=false

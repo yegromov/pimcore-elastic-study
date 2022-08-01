@@ -15,4 +15,39 @@
     "container":"php-beauty_php-fpm",
     "command":"./bin/console messenger:consume pimcore_core pimcore_maintenance --time-limit=300",
     "onstart":true
-}]
+},
+,{
+    "name":"Parallel import",
+    "comment":"Process import queue items that can be executed in parallel",
+    "schedule":"@every 5m",
+    "project":"php-beauty",
+    "container":"php-beauty_php-fpm",
+    "command":"./bin/console datahub:data-importer:process-queue-parallel --processes=5",
+    "onstart":true
+},
+,{
+    "name":"Sequental import",
+    "comment":"Process import queue items that need to be executed sequentially ",
+    "schedule":"@every 5m",
+    "project":"php-beauty",
+    "container":"php-beauty_php-fpm",
+    "command":"./bin/console datahub:data-importer:process-queue-sequential",
+    "onstart":true
+},
+,{
+    "name":"Import status cron check",
+    "comment":"Import status cron check",
+    "schedule":"@every 1m",
+    "project":"php-beauty",
+    "container":"php-beauty_php-fpm",
+    "command":"./bin/console datahub:data-importer:execute-cron",
+    "onstart":true
+},
+]
+
+
+
+
+
+
+

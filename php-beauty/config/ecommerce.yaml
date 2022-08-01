@@ -1,0 +1,118 @@
+parameters:
+  # Elasticsearch
+  elasticsearch.host: elasticsearch
+
+services:
+  App\Configuration\Index\MySQLConfig:
+    parent: Pimcore\Bundle\EcommerceFrameworkBundle\IndexService\Config\AbstractConfig
+  App\Configuration\Index\ESConfig:
+    parent: Pimcore\Bundle\EcommerceFrameworkBundle\IndexService\Config\ElasticSearch
+
+pimcore_ecommerce_framework:
+  index_service:
+    tenants:
+      MySQLTenant:
+        config_id: 'App\Configuration\Index\MySQLConfig'
+        attributes:
+          car_name:
+            type: "varchar(255)"
+            filter_group: string
+
+      EsTenant:
+        config_options:
+          client_config:
+            logging: false
+            indexName: "ecommerce-elasticsearch"
+
+          es_client_params:
+            hosts:
+              - "%elasticsearch.host%"
+            timeoutMs: 20000, # 20 seconds
+            timeoutMsBackend: 120000 # 2 minutes
+
+          index_settings:
+            number_of_shards: 5
+            number_of_replicas: 0
+            max_ngram_diff: 30
+            analysis:
+              analyzer:
+                my_ngram_analyzer:
+                  tokenizer: my_ngram_tokenizer
+                whitelist_analyzer:
+                  tokenizer: standard
+                  filter:
+                    - white_list_filter
+              tokenizer:
+                my_ngram_tokenizer:
+                  type: nGram
+                  min_gram: 2
+                  max_gram: 15
+                  token_chars: [letter, digit]
+              filter:
+                white_list_filter:
+                  type: keep
+                  keep_words:
+                    - was
+                    - WAS
+        search_attributes:
+          - car_name
+          - model
+          - factory
+
+        attributes:
+          car_name:
+            locale: "%%locale%%"
+            type: "varchar(255)"
+            filter_group: string
+          model:
+            locale: "%%locale%%"
+            type: "varchar(255)"
+            filter_group: string
+          factory:
+            locale: "%%locale%%"
+            type: "varchar(255)"
+            filter_group: string
+
+  filter_service:
+    tenants:
+      default:
+        # assign backend implementations and views to filter type field collections
+        filter_types:
+          # filter type for the FilterNumberRange field collection
+          FilterNumberRange:
+            # service id for filter type implementation
+            filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\NumberRange
+            # default template for filter, can be overwritten in filter definition
+            template: ":Shop/filters:range.html.php"
+
+          FilterNumberRangeSelection:
+            filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\NumberRangeSelection
+            template: ":Shop/filters:numberrange.html.php"
+
+          FilterSelect:
+            filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\Select
+            template: ":Shop/filters:select.html.php"
+
+          FilterSelectFromMultiSelect:
+            filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\SelectFromMultiSelect
+            template: ":Shop/filters:select.html.php"
+
+          FilterMultiSelect:
+            filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\MultiSelect
+            template: ":Shop/filters:multiselect.html.php"
+
+          FilterMultiSelectFromMultiSelect:
+            filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\MultiSelectFromMultiSelect
+            template: ":Shop/filters:multiselect.html.php"
+
+          FilterMultiRelation:
+            filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\MultiSelectRelation
+            template: ":Shop/filters:multiselect-relation.html.php"
+
+          FilterCategory:
+            filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\SelectCategory
+            template: ":Shop/filters:select_category.html.php"
+
+          FilterRelation:
+            filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\SelectRelation
+            template: ":Shop/filters:object_relation.html.php"

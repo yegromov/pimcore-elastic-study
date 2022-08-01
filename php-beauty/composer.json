@@ -8,8 +8,10 @@
     "process-timeout": 0
   },
   "require": {
-    "elasticsearch/elasticsearch": "^8.2",
+    "dachcom-digital/dynamic-search": "^2.0",
+    "elasticsearch/elasticsearch": "^8.3",
     "pimcore/data-hub": "^1.4",
+    "pimcore/data-importer": "^1.6",
     "pimcore/pimcore": "^10.0"
   },
   "require-dev": {

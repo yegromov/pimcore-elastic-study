@@ -10,6 +10,7 @@ return [
             ]
         ],
         "Pimcore\\Bundle\\EcommerceFrameworkBundle\\PimcoreEcommerceFrameworkBundle" => TRUE,
-        "Pimcore\\Bundle\\DataImporterBundle\\PimcoreDataImporterBundle" => TRUE
+        "Pimcore\\Bundle\\DataImporterBundle\\PimcoreDataImporterBundle" => TRUE,
+        "DynamicSearchBundle\\DynamicSearchBundle" => TRUE
     ]
 ];

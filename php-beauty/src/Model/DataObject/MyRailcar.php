@@ -4,6 +4,7 @@ namespace App\Model\DataObject;
 
 use Pimcore\Model\DataObject\Railcar;
 use Pimcore\Bundle\EcommerceFrameworkBundle\Model\IndexableInterface;
+use DynamicSearchBundle\Provider\PreConfiguredIndexProviderInterface;
 
 class MyRailcar extends Railcar implements IndexableInterface
 {

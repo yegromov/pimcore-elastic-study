@@ -1,7 +1,7 @@
 imports:
     - { resource: 'local/' }
     - { resource: 'ecommerce.yaml' }
-
+    - { resource: 'dynamic-search.yaml' }
 
 pimcore:
 

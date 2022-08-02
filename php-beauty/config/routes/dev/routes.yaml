@@ -1,2 +1,5 @@
 _pimcore_dev:
     resource: "@PimcoreCoreBundle/Resources/config/routing_dev.yml"
+
+dynamic_search_frontend:
+    resource: '@DynamicSearchBundle/Resources/config/pimcore/routing/frontend_routing.yml'

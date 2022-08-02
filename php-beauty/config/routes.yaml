@@ -4,3 +4,6 @@ _pimcore:
 app:
     resource: "../src/Controller/"
     type: annotation
+
+dynamic_search_frontend:
+    resource: '@DynamicSearchBundle/Resources/config/pimcore/routing/frontend_routing.yml'

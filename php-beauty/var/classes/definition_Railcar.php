@@ -30,7 +30,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
    'name' => 'Railcar',
    'description' => 'Freight Railcar Class',
    'creationDate' => 0,
-   'modificationDate' => 1658832470,
+   'modificationDate' => 1659461765,
    'userOwner' => 2,
    'userModification' => 2,
    'parentClass' => '\\Pimcore\\Bundle\\EcommerceFrameworkBundle\\Model\\AbstractProduct',

@@ -4,20 +4,20 @@ namespace App\DynamicSearch\IndexDefinition\Trinity;
 
 use DynamicSearchBundle\Document\Definition\DocumentDefinitionBuilderInterface;
 use DynamicSearchBundle\Document\Definition\DocumentDefinitionInterface;
-use DynamicSearchBundle\Normalizer\Resource\ResourceMetaInterface;
-
+use DynamicSearchBundle\Document\Definition\DocumentDefinitionContextBuilderInterface;
 use DynamicSearchBundle\Document\IndexDocument;
+use DynamicSearchBundle\Normalizer\Resource\ResourceMetaInterface;
+use DynamicSearchBundle\Provider\PreConfiguredIndexProviderInterface;
 
-class Definition implements DocumentDefinitionBuilderInterface
-//\DynamicSearchBundle\Provider\PreConfiguredIndexProviderInterface
-//
+class Definition implements
+    DocumentDefinitionBuilderInterface,
+    DocumentDefinitionContextBuilderInterface,
+    PreConfiguredIndexProviderInterface
 {
-    /*
     public function preConfigureIndex(IndexDocument $indexDocument): void
     {
-
-    }
-    */
+        //var_dump($indexDocument);  
+    }   
 
     public function isApplicable(string $contextName, ResourceMetaInterface $resourceMeta): bool
     {
@@ -28,8 +28,16 @@ class Definition implements DocumentDefinitionBuilderInterface
         return true;
     }
 
+    public function isApplicableForContext(string $contextName): bool
+    {
+        //var_dump($contextName);
+        return true;
+    }
+
     public function buildDefinition(DocumentDefinitionInterface $definition, array $normalizerOptions): DocumentDefinitionInterface
     {
+        //var_dump($definition);
+
         $definition
             ->addSimpleDocumentFieldDefinition([
                 'name'              => 'id',
@@ -41,7 +49,7 @@ class Definition implements DocumentDefinitionBuilderInterface
                 ]
             ])
             ->addSimpleDocumentFieldDefinition([
-                'name'              => 'name',
+                'name'              => 'car_name',
                 'index_transformer' => [
                     'type' => 'text',
                 ],

@@ -14,6 +14,8 @@ services:
             - pimcore-database:/var/lib/mysql
         env_file:
             - .env
+        networks:
+            - pimcore_network
 
     nginx:
         image: nginx:stable-alpine
@@ -25,6 +27,8 @@ services:
         depends_on:
             - php-fpm
             - php-fpm-debug
+        networks:
+            - pimcore_network
 
     php-fpm:
         user: '1000:1000'
@@ -39,6 +43,8 @@ services:
         volumes:
             - .:/var/www/html
             - pimcore-tmp-storage:/tmp
+        networks:
+            - pimcore_network
 
     php-fpm-debug:
         user: '1000:1000'
@@ -51,6 +57,8 @@ services:
         environment:
             PHP_IDE_CONFIG: serverName=localhost
             COMPOSER_HOME: /var/www/html
+        networks:
+            - pimcore_network
 
     supervisord:
         user: '1000:1000'
@@ -60,7 +68,8 @@ services:
         volumes:
             - .:/var/www/html
             - ./.docker/supervisord.conf:/etc/supervisor/conf.d/pimcore.conf:ro
-
+        networks:
+            - pimcore_network
 
     elasticsearch:
         user: '1000:1000'
@@ -80,6 +89,8 @@ services:
             - 9300:9300
         depends_on:
             - php-fpm
+        networks:
+            - pimcore_network
     cron:
           build: ../docker-files/cron/
           restart: always
@@ -87,6 +98,8 @@ services:
             - "/var/run/docker.sock:/var/run/docker.sock:ro"
           depends_on:
              - php-fpm
+          networks:
+            - pimcore_network
 
     varnish:
           build: ../docker-files/varnish/
@@ -94,8 +107,14 @@ services:
             - "80:80"
           depends_on:
             - nginx
+          networks:
+            - pimcore_network
 
 volumes:
     pimcore-database:
     pimcore-tmp-storage:
     elasticsearch-data:
+
+networks:
+    pimcore_network:
+

@@ -23,9 +23,8 @@ pimcore:
 #        zend_date: true
 
 #### CLASS OVERRIDES EXAMPLES
-    models:
-        class_overrides:
-            'Pimcore\Model\DataObject\Railcar': 'App\Model\DataObject\MyRailcar'
+#    models:
+#        class_overrides:
 #            'Pimcore\Model\DataObject\News\Listing': 'App\Model\DataObject\News\Listing'
 #            'Pimcore\Model\DataObject\Folder': 'App\Model\DataObject\Folder'
 #            'Pimcore\Model\Asset\Folder': 'App\Model\Asset\Folder'
@@ -140,45 +139,7 @@ framework:
 #            main: smtp://user:pass@smtp.example.com:port
 #            pimcore_newsletter: smtp://user:pass@smtp.example.com:port
 
-#pimcore_ecommerce_framework:
-#    index_service:
-#        tenants:
-#            MyEsTenant:
-#                config_options:
-#                    client_config:
-#                        logging: false
-#                        indexName: 'ecommerce-demo-elasticsearch'
-#
-#                    es_client_params:
-#                        hosts:
-#                            - '%env(ELASTICSEARCH_HOST)%'
-#                        timeoutMs: 20000, # 20 seconds
-#                        timeoutMsBackend: 120000 # 2 minutes
-#
-#                    index_settings:
-#                        number_of_shards: 5
-#                        number_of_replicas: 0
-#                        max_ngram_diff: 30
-#                        analysis:
-#                            analyzer:
-#                                my_ngram_analyzer:
-#                                    tokenizer: my_ngram_tokenizer
-#                                whitelist_analyzer:
-#                                    tokenizer: standard
-#                                    filter:
-#                                        - white_list_filter
-#                            tokenizer:
-#                                my_ngram_tokenizer:
-#                                    type: nGram
-#                                    min_gram: 2
-#                                    max_gram: 15
-#                                    token_chars: [letter, digit]
-#                            filter:
-#                                white_list_filter:
-#                                    type: keep
-#                                    keep_words:
-#                                        - was
-#                                        - WAS
+
 
 
 pimcore_data_importer:

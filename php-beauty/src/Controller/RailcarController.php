@@ -2,16 +2,18 @@
 
 namespace App\Controller;
 
-use Knp\Component\Pager\PaginatorInterface;
+use Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\ListHelper;
+use Pimcore\Bundle\EcommerceFrameworkBundle\IndexService\ProductList\ProductListInterface;
 use Pimcore\Controller\FrontendController;
+use Pimcore\Bundle\EcommerceFrameworkBundle\Factory;
+use Pimcore\Model\DataObject\FilterDefinition;
+#use Pimcore\Model\DataObject\ProductCategory;
+use App\Model\DataObject\ProductCategory;
+use Pimcore\Config;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Pimcore\Bundle\EcommerceFrameworkBundle\Factory;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Pimcore\Model\DataObject;
-use Pimcore\Model\DataObject\FilterDefinition;
-use Pimcore\Model\DataObject\ProductCategory;
-use Pimcore\Config;
+use Knp\Component\Pager\PaginatorInterface;
 
 class RailcarController extends FrontendController
 {
@@ -100,5 +102,62 @@ class RailcarController extends FrontendController
         }
 
         return $this->json($products);
+    }
+
+    /**
+     * @Route("/shop/{path}{categoryname}~c{category}", name="shop-category", defaults={"path"=""}, requirements={"path"=".*?", "categoryname"="[\w-]+", "category"="\d+"})
+     *
+     * @param Request $request
+     * @param Factory $ecommerceFactory
+     * @param SegmentTrackingHelperService $segmentTrackingHelperService
+     * @param ListHelper $listHelper
+     *
+     * @return Response
+     */
+
+    public function esRailcarsListAction(Request $request, Factory $ecommerceFactory, PaginatorInterface $paginator, ListHelper $listHelper)
+    {
+        $params = array_merge($request->query->all(), $request->attributes->all());
+
+        $params['parentCategoryIds'] = $params['category'] ?? null;
+
+        $category = ProductCategory::getById($params['category'] ?? null);
+        $params['category'] = $category;
+
+        $indexService = $ecommerceFactory->getIndexService();
+        $productListing = $indexService->getProductListForTenant('EsTenant');
+        //$productListing->setVariantMode(ProductListInterface::VARIANT_MODE_VARIANTS_ONLY);
+        $params['productListing'] = $productListing;
+
+        // Current filter loading
+        if ($category) {
+            $filterDefinition = $category->getFilterDefinition();
+
+            //TODO We can track segments for personalization on this step after
+        }
+
+        if ($request->get('filterdefinition') instanceof FilterDefinition) {
+            $filterDefinition = $request->get('filterdefinition');
+        }
+
+        // It seems that this made for make sure that we have filter definition
+        if (empty($filterDefinition)) {
+            $filterDefinition = Config::getWebsiteConfig()->get('fallbackFilterdefinition');
+        }
+
+        $filterService = $ecommerceFactory->getFilterService();
+        $listHelper->setupProductList($filterDefinition, $productListing, $params, $filterService, true);
+        $params['filterService'] = $filterService;
+        $params['filterDefinition'] = $filterDefinition;
+
+        $paginator = $paginator->paginate(
+            $productListing,
+            $request->get('page', 1),
+            10
+        );
+
+        $params['results'] = $paginator;
+
+        return $this->render('railcar/es-railcar-list.html.twig', $params);
     }
 }

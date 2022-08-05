@@ -8,6 +8,12 @@ services:
   App\Configuration\Index\ESConfig:
     parent: Pimcore\Bundle\EcommerceFrameworkBundle\IndexService\Config\ElasticSearch
 
+pimcore:
+    models:
+        class_overrides:
+            Pimcore\Model\DataObject\Railcar': App\Model\DataObject\MyRailcar
+            Pimcore\Model\DataObject\ProductCategory: App\Model\DataObject\ProductCategory
+
 pimcore_ecommerce_framework:
   index_service:
     tenants:
@@ -17,7 +23,6 @@ pimcore_ecommerce_framework:
           car_name:
             type: "varchar(255)"
             filter_group: string
-
       EsTenant:
         config_options:
           client_config:
@@ -54,6 +59,7 @@ pimcore_ecommerce_framework:
                   keep_words:
                     - was
                     - WAS
+
         search_attributes:
           - car_name
           - model
@@ -62,15 +68,15 @@ pimcore_ecommerce_framework:
         attributes:
           car_name:
             locale: "%%locale%%"
-            type: "varchar(255)"
+            type: "keyword"
             filter_group: string
           model:
             locale: "%%locale%%"
-            type: "varchar(255)"
+            type: "keyword"
             filter_group: string
           factory:
             locale: "%%locale%%"
-            type: "varchar(255)"
+            type: "keyword"
             filter_group: string
 
   filter_service:
@@ -83,36 +89,36 @@ pimcore_ecommerce_framework:
             # service id for filter type implementation
             filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\NumberRange
             # default template for filter, can be overwritten in filter definition
-            template: ":Shop/filters:range.html.php"
+            template: "railcar/filters:range.html.php"
 
           FilterNumberRangeSelection:
             filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\NumberRangeSelection
-            template: ":Shop/filters:numberrange.html.php"
+            template: "railcar/filters/numrange-select.html.php"
 
           FilterSelect:
             filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\Select
-            template: ":Shop/filters:select.html.php"
+            template: "railcar/filters/select.html.php"
 
           FilterSelectFromMultiSelect:
             filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\SelectFromMultiSelect
-            template: ":Shop/filters:select.html.php"
+            template: "railcar/filters/select.html.php"
 
           FilterMultiSelect:
             filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\MultiSelect
-            template: ":Shop/filters:multiselect.html.php"
+            template: "railcar/filters/multiselect.html.php"
 
           FilterMultiSelectFromMultiSelect:
             filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\MultiSelectFromMultiSelect
-            template: ":Shop/filters:multiselect.html.php"
+            template: "railcar/filters/multiselect.html.php"
 
           FilterMultiRelation:
             filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\MultiSelectRelation
-            template: ":Shop/filters:multiselect-relation.html.php"
+            template: "railcar/filters/multiselect-relation.html.php"
 
           FilterCategory:
             filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\SelectCategory
-            template: ":Shop/filters:select_category.html.php"
+            template: "railcar/filters/select_category.html.twig"
 
           FilterRelation:
             filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\SelectRelation
-            template: ":Shop/filters:object_relation.html.php"
+            template: "railcar/filters/object_relation.html.php"

@@ -7,6 +7,7 @@ use Pimcore\Bundle\EcommerceFrameworkBundle\IndexService\ProductList\ProductList
 use Pimcore\Controller\FrontendController;
 use Pimcore\Bundle\EcommerceFrameworkBundle\Factory;
 use Pimcore\Model\DataObject\FilterDefinition;
+use Pimcore\Model\DataObject;
 #use Pimcore\Model\DataObject\ProductCategory;
 use App\Model\DataObject\ProductCategory;
 use Pimcore\Config;
@@ -14,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
+use Knp\Component\Pager\Pagination\SlidingPagination;
 
 class RailcarController extends FrontendController
 {
@@ -26,7 +28,7 @@ class RailcarController extends FrontendController
     public function railcarsListAction(Request $request, PaginatorInterface $paginator)
     {
         $searchValue = $request->request->get('searchValue');
-/*
+        /*
         $ecommerceFactory = \Pimcore\Bundle\EcommerceFrameworkBundle\Factory::getInstance();
 
         $templateParams = [];
@@ -65,8 +67,8 @@ class RailcarController extends FrontendController
         return $templateParams;
     */
 
-//---------------------------
-        
+        //---------------------------
+
         $productList = Factory::getInstance()->getIndexService()->getProductListForTenant('EsTenant');
 
         foreach ($productList as $railcar) {
@@ -82,7 +84,6 @@ class RailcarController extends FrontendController
             'railcars' => $products,
             'searchValue' => $searchValue,
         ];
-        
     }
 
     /**
@@ -153,11 +154,32 @@ class RailcarController extends FrontendController
         $paginator = $paginator->paginate(
             $productListing,
             $request->get('page', 1),
-            10
+            100
         );
 
         $params['results'] = $paginator;
 
         return $this->render('railcar/es-railcar-list.html.twig', $params);
+    }
+
+    /**
+     * @Route("/update-railcars")
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function updateRailcarsAction()
+    {        
+        $entries = new \Pimcore\Model\DataObject\Railcar\Listing();
+        $entries->setCondition("car_name LIKE ?", ["%бункер%"]);
+        $category = \Pimcore\Model\DataObject\ProductCategory::getById(4070);
+
+        $products = [];
+        foreach ($entries as $entry) {
+            //$factoryName = stripslashes($entry->getFactory());
+            $entry->setCategories([ $category ]);
+            $entry->save(["versionNote" => "Setting categories"]);
+            $products[] = $entry->getCar_name();       
+        }
+        
+        return $this->json($products);
     }
 }

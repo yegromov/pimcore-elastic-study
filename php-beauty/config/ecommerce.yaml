@@ -11,7 +11,7 @@ services:
 pimcore:
     models:
         class_overrides:
-            Pimcore\Model\DataObject\Railcar': App\Model\DataObject\MyRailcar
+            Pimcore\Model\DataObject\Railcar: App\Model\DataObject\MyRailcar
             Pimcore\Model\DataObject\ProductCategory: App\Model\DataObject\ProductCategory
 
 pimcore_ecommerce_framework:

@@ -38,7 +38,6 @@ class CategoryFilterExtension extends AbstractExtension
 
         $data->parentCategories = [];
         $data->currentCategory = $this->getCurrentCategory($currentValue);
-        //var_dump($data->currentCategory);
         if ($data->currentCategory) {
             $data->parentCategories = $data->currentCategory->getParentCategoryList($rootCategory);
         }

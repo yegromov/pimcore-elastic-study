@@ -68,15 +68,18 @@ pimcore_ecommerce_framework:
         attributes:
           car_name:
             locale: "%%locale%%"
-            type: "keyword"
+            #type: "keyword"
+            type: "varchar(255)"
             filter_group: string
           model:
             locale: "%%locale%%"
-            type: "keyword"
+            #type: "keyword"
+            type: "varchar(255)"
             filter_group: string
           factory:
             locale: "%%locale%%"
-            type: "keyword"
+            #type: "keyword"
+            type: "varchar(255)"
             filter_group: string
 
   filter_service:

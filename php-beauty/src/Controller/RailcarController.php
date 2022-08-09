@@ -119,7 +119,6 @@ class RailcarController extends FrontendController
     public function esRailcarsListAction(Request $request, Factory $ecommerceFactory, PaginatorInterface $paginator, ListHelper $listHelper)
     {
         $params = array_merge($request->query->all(), $request->attributes->all());
-
         $params['parentCategoryIds'] = $params['category'] ?? null;
 
         $category = ProductCategory::getById($params['category'] ?? null);
@@ -130,11 +129,8 @@ class RailcarController extends FrontendController
         //$productListing->setVariantMode(ProductListInterface::VARIANT_MODE_VARIANTS_ONLY);
         $params['productListing'] = $productListing;
 
-        // Current filter loading
         if ($category) {
             $filterDefinition = $category->getFilterDefinition();
-
-            //TODO We can track segments for personalization on this step after
         }
 
         if ($request->get('filterdefinition') instanceof FilterDefinition) {
@@ -167,19 +163,30 @@ class RailcarController extends FrontendController
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function updateRailcarsAction()
-    {        
+    {
         $entries = new \Pimcore\Model\DataObject\Railcar\Listing();
-        $entries->setCondition("car_name LIKE ?", ["%бункер%"]);
-        $category = \Pimcore\Model\DataObject\ProductCategory::getById(4070);
+        //$entries->setCondition("factory LIKE ?", ["%\\%"]);
+        //$category = \Pimcore\Model\DataObject\ProductCategory::getById(1393);
 
         $products = [];
         foreach ($entries as $entry) {
-            //$factoryName = stripslashes($entry->getFactory());
-            $entry->setCategories([ $category ]);
-            $entry->save(["versionNote" => "Setting categories"]);
-            $products[] = $entry->getCar_name();       
+            if (get_class($entry) === 'App\Model\DataObject\MyRailcar') {
+                $factoryName = stripslashes($entry->getFactory());
+                //if (mb_strpos($factoryName, '\\') !== false) {
+                    $factoryName = stripslashes(stripslashes(stripslashes($factoryName)));
+                    $entry->setFactory($factoryName);
+                    $entry->save(["versionNote" => "Clearing backslashes"]);
+                    $products[] = $entry->getCar_name();
+                //} else {
+                //    $products[] = 'Not updfated '.$entry->getCar_name();
+                //}
+
+            } else {
+                $prodcucts[] = get_class($entry);
+            }
+            //$entry->setCategories([ $category ]);                   
         }
-        
+
         return $this->json($products);
     }
 }

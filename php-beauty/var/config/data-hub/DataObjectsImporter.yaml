@@ -8,7 +8,7 @@ pimcore_data_hub:
                 description: ''
                 group: ''
                 path: null
-                modificationDate: 1658728636
+                modificationDate: 1660045915
                 createDate: 1658389199
             loaderConfig:
                 type: upload
@@ -30,7 +30,7 @@ pimcore_data_hub:
                 createLocationStrategy:
                     type: staticPath
                     settings:
-                        path: /
+                        path: /ProductData/Railcars
                 locationUpdateStrategy:
                     type: noChange
                 publishingStrategy:
@@ -85,6 +85,8 @@ pimcore_data_hub:
                     dataSourceIndex:
                         - '8'
                         - '1'
+                    settings:
+                        glue: '  модель '
                     transformationResultType: default
                     dataTarget:
                         type: direct
@@ -93,8 +95,6 @@ pimcore_data_hub:
                             language: ''
                             writeIfTargetIsNotEmpty: true
                             writeIfSourceIsEmpty: true
-                    settings:
-                        glue: '  модель '
                     transformationPipeline:
                         -
                             settings:
@@ -254,7 +254,7 @@ pimcore_data_hub:
                     dataTarget:
                         type: direct
                         settings:
-                            fieldName: end_yea
+                            fieldName: end_year
                             language: ''
                             writeIfTargetIsNotEmpty: true
                             writeIfSourceIsEmpty: true
@@ -267,6 +267,8 @@ pimcore_data_hub:
                         - '8'
                         - '1'
                         - '0'
+                    settings:
+                        glue: ' '
                     transformationResultType: default
                     dataTarget:
                         type: direct
@@ -275,8 +277,6 @@ pimcore_data_hub:
                             language: ''
                             writeIfTargetIsNotEmpty: true
                             writeIfSourceIsEmpty: true
-                    settings:
-                        glue: ' '
                     transformationPipeline:
                         -
                             settings:
